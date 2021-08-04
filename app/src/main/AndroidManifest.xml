@@ -10,6 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fastingapp">
         <activity
+            android:name=".DanielFastActivity"
+            android:exported="true"
+            android:label="@string/title_activity_daniel_fast"
+            android:theme="@style/Theme.Fastingapp.NoActionBar" />
+        <activity
+            android:name=".PartialFastActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -18,6 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".FastActivity"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
