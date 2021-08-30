@@ -3,4 +3,5 @@
     <string name="title_home">Home</string>
     <string name="title_start_fast">Start Fast</string>
     <string name="title_notifications">Notifications</string>
+    <string name="current_fasts">Current fasts</string>
 </resources>

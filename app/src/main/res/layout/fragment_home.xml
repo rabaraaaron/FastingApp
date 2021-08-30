@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hey Dave" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/text_home"
         android:layout_width="match_parent"
