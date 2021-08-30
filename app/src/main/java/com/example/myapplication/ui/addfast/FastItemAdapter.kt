@@ -73,7 +73,6 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             datePickerButton.setImageResource(R.drawable.ic_baseline_date_range_24)
 
             startFastButton.setOnClickListener(View.OnClickListener {
-                Log.d("demo", "onClick for fast: " + fastName.text)
                 val alertDialog = AlertDialog.Builder(itemView.rootView.context)
                 val datePickerAlertDialog = AlertDialog.Builder(itemView.rootView.context)
 
@@ -95,7 +94,6 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         if (day.toInt() < 10){
                             day = "0$day"
                         }
-                        Log.d("demo","Day: $day, Month: $month, Year: $year")
 
                         if(switch == 0){
                             startingOnStr.text = "$defaultStartingOn $month/$day/$year"
@@ -135,18 +133,46 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         calendarViewParent.removeView(calendarView)
 
                         if(startingOnStr.text.length > 12 && endingOnStr.text.length > 10){
-                            if(!sharedPreferences.contains(itemView.context.getString(R.string.current_fasts))){
-                                var fastMap = HashMap<String, Int>()
+                            if(!sharedPreferences.contains(itemView.context.getString
+                                    (R.string.current_fasts))){
 
-                                var daysBetween = changeDateFormat(startingOnStr.text as String, endingOnStr.text as String)
-                                var fastID = "$fastName:${startingOnStr.text}"
-                                fastMap.put(fastID, daysBetween)
+                                var fastMap = HashMap<String, String>()
+
+                                var period = changeDateFormat(startingOnStr.text as String,
+                                    endingOnStr.text as String)
+                                var fastID = "${fastName.text}-${startingOnStr.text}"
+                                fastMap.put(fastID, "${period.first}:${period.second}")
                                 var serializedObject: String? = gson.toJson(fastMap)
-                                Log.d("Date difference: ", "$daysBetween")
+                                sharedPreferencesEditor.putString(itemView.context.getString
+                                    (R.string.current_fasts), serializedObject).commit()
+
+//                                Log.d("Date difference: ", " ${period.first} months and " +
+//                                        "${period.second} days")
                                 startingOnStr.text = defaultStartingOn
                                 endingOnStr.text = defaultEndingOn
-                                //TODO: save the date and its values to the storage
+                                //TODO: save the date and its values to the storage when fast list is empty
+                            } else{
+                                //TODO: case for when the fast list exists
 
+                                var period = changeDateFormat(startingOnStr.text as String,
+                                    endingOnStr.text as String)
+                                var fastID = "${fastName.text}-${startingOnStr.text}"
+
+                                var fastMap = HashMap<String, String>()
+                                fastMap = gson.fromJson(sharedPreferences.getString
+                                    (itemView.context.getString(R.string.current_fasts), ""),
+                                    HashMap<String, String>().javaClass)
+                                fastMap[fastID] = "${period.first}:${period.second}"
+                                var serializedObject: String? = gson.toJson(fastMap)
+                                sharedPreferencesEditor.putString(itemView.context.getString
+                                    (R.string.current_fasts), serializedObject).commit()
+
+//                                Log.d("Fast list: ", "${fastMap.keys.size} entries exist")
+
+                                var listOfKeys = fastMap.keys.toList()
+                                for (x in listOfKeys){
+                                    println("${x}, ${fastMap[x].toString()}")
+                                }
                             }
                         }
 
@@ -157,7 +183,7 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             })
         }
 
-        fun changeDateFormat(startingDate: String, endingDate: String): Int {
+        private fun changeDateFormat(startingDate: String, endingDate: String): Pair<String, String> {
             var str1 = startingDate
             var str2 = endingDate
 
@@ -173,11 +199,11 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             val from = LocalDate.parse(str1, DateTimeFormatter.ofPattern("MMddyyyy"))
             val to = LocalDate.parse(str2, DateTimeFormatter.ofPattern("MMddyyyy"))
             val period = Period.between(from, to)
-            println("The difference between " + from.format(DateTimeFormatter.ISO_LOCAL_DATE)
-                    + " and " + to.format(DateTimeFormatter.ISO_LOCAL_DATE) + " is "
-                    + period.getYears() + " years, " + period.getMonths() + " months and "
-                    + period.getDays() + " days")
-            return period.days
+//            println("The difference between " + from.format(DateTimeFormatter.ISO_LOCAL_DATE)
+//                    + " and " + to.format(DateTimeFormatter.ISO_LOCAL_DATE) + " is "
+//                    + period.getYears() + " years, " + period.getMonths() + " months and "
+//                    + period.getDays() + " days")
+            return Pair<String, String>(period.months.toString(), period.days.toString())
         }
     }
 
