@@ -24,7 +24,6 @@ class AddFastFragment : Fragment() {
     private var fastItemAdapter: FastItemAdapter = FastItemAdapter()
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,7 +45,6 @@ class AddFastFragment : Fragment() {
             fastList.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = fastItemAdapter
-
             }
         })
         addDataSet()
