@@ -10,13 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.databinding.FragmentDashboardBinding
+import com.example.myapplication.databinding.FragmentAddFastBinding
 import com.example.myapplication.model.DataSource
 
 class AddFastFragment : Fragment() {
 
     private lateinit var addFastViewModel: AddFastViewModel
-    private var _binding: FragmentDashboardBinding? = null
+    private var _binding: FragmentAddFastBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -28,26 +28,26 @@ class AddFastFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        addDataSet()
         addFastViewModel =
             ViewModelProvider(this).get(AddFastViewModel::class.java)
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentAddFastBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textDashboard
-        addFastViewModel.text.observe(viewLifecycleOwner, Observer {
+        addFastViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
 
         val fastList: RecyclerView = binding.fastList
-        addFastViewModel.fastNames.observe(viewLifecycleOwner, Observer {
+        addFastViewModel.fastNames.observe(viewLifecycleOwner, {
             fastList.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = fastItemAdapter
             }
         })
-        addDataSet()
         return root
     }
 

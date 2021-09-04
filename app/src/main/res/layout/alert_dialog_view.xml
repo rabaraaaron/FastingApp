@@ -35,6 +35,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_baseline_date_range_24" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comments:" />
+
+        <EditText
+            android:id="@+id/commentsTextArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textLongMessage|textAutoCorrect|textMultiLine|text" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

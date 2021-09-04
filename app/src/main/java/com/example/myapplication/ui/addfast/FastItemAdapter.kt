@@ -4,10 +4,7 @@ import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.DatePicker
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.ui.home.HomeItem
@@ -20,14 +17,11 @@ import java.time.format.DateTimeFormatter
 class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var fastItems: List<FastItem> = ArrayList()
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return FastItemViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.fast_item_row, parent, false)
         )
     }
-
-
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder){
@@ -60,6 +54,7 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val datePickerButton:ImageButton = ImageButton(itemView.rootView.context)
         private val calendarView: View = LayoutInflater.from(context)
             .inflate(R.layout.alert_dialog_view, null)
+        private val commentsEditText: EditText = calendarView.findViewById(R.id.commentsTextArea)
         private val startingOnStr: TextView = calendarView.findViewById<TextView>(R.id.startingOn)
         private val endingOnStr = calendarView.findViewById<TextView>(R.id.endingOn)
         var switch = -1
@@ -143,6 +138,7 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
                     }
                     .setPositiveButton("Confirm") { dialog, _ ->
+                        val comment = commentsEditText.text
                         dialog.dismiss()
                         val calendarViewParent = calendarView.parent as ViewGroup
                         calendarViewParent.removeView(calendarView)
@@ -158,15 +154,17 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                                 )
                                 val homeItem = HomeItem(
                                     startDate = startingOnStr.text.substring(
-                                        11,
+                                        13,
                                         startingOnStr.text.length,
                                     ),
                                     fastName = fastName.text as String,
                                     fastDuration = period,
                                     endDate = endingOnStr.text.substring(
-                                        9,
+                                        11,
                                         endingOnStr.text.length,
                                     ),
+                                    comments = comment.toString(),
+                                    fastDescription = fastItem.fastDescription
                                 )
                                 homeItems.add(homeItem)
                                 val serializedObject: String? = gson.toJson(homeItems)
@@ -197,14 +195,16 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                                 val homeItem = HomeItem(
                                     fastName = fastName.text!!.toString(),
                                     startDate = startingOnStr.text.substring(
-                                        11,
+                                        13,
                                         startingOnStr.text.length,
                                     ),
                                     endDate = endingOnStr.text.substring(
-                                        9,
+                                        11,
                                         endingOnStr.text.length,
                                     ),
                                     fastDuration = period,
+                                    comments = comment.toString(),
+                                    fastDescription = fastItem.fastDescription
                                 )
                                 homeItems.add(homeItem)
                                 val serializedObject: String? = gson.toJson(homeItems)
