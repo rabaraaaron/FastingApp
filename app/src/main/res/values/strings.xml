@@ -3,5 +3,28 @@
     <string name="title_home">Home</string>
     <string name="title_start_fast">Start Fast</string>
     <string name="title_settings">Settings</string>
+    <string name="title_extras">Extras</string>
     <string name="current_fasts">Current fasts</string>
+    <string name="bible_version">Preferred bible version</string>
+    <string name="finished_fasts">Finished fasts</string>
+    <string name="amount_started">Amount of fasts that have been started</string>
+    <string name="amount_finished">Amount of fasts that have been finished</string>
+    <string name="scheduled_notifications_switch">Toggle for enabling scheduled notifications</string>
+    <string name="daily_notifications_switch">Toggle for enabling daily reminder notifications</string>
+    <string name="settings">Settings for the app</string>
+    <string name="notifications_channel">200</string>
+
+    <string-array name="Versions">
+        <item>NKJV</item>
+        <item>KJV</item>
+        <item>ESV</item>
+        <item>NIV</item>
+        <item>NLT</item>
+        <item>CSB</item>
+        <item>RV</item>
+        <item>NIrV</item>
+        <item>Message</item>
+        <item>NASB</item>
+    </string-array>
+
 </resources>

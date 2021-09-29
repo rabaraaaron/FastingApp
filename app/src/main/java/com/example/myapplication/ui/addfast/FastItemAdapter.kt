@@ -55,7 +55,7 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val calendarView: View = LayoutInflater.from(context)
             .inflate(R.layout.alert_dialog_view, null)
         private val commentsEditText: EditText = calendarView.findViewById(R.id.commentsTextArea)
-        private val startingOnStr: TextView = calendarView.findViewById<TextView>(R.id.startingOn)
+        private val startingOnStr: TextView = calendarView.findViewById(R.id.startingOn)
         private val endingOnStr = calendarView.findViewById<TextView>(R.id.endingOn)
         var switch = -1
         private val defaultStartingOn = "Starting on:"
@@ -147,7 +147,6 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                             if (!sharedPreferences.contains(context.getString(R.string.current_fasts))) {
 
                                 val homeItems = ArrayList<HomeItem>()
-
                                 val period = changeDateFormat(
                                     startingOnStr.text as String,
                                     endingOnStr.text as String,
@@ -164,7 +163,9 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                                         endingOnStr.text.length,
                                     ),
                                     comments = comment.toString(),
-                                    fastDescription = fastItem.fastDescription
+                                    fastDescription = fastItem.fastDescription,
+                                    finished = false,
+                                    notificationsOn = false
                                 )
                                 homeItems.add(homeItem)
                                 val serializedObject: String? = gson.toJson(homeItems)
@@ -174,23 +175,34 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                                     serializedObject,
                                 ).commit()
 
+                                var amountStarted = sharedPreferences.getInt(
+                                    context.getString(R.string.amount_started), 0)
+                                amountStarted++
+                                sharedPreferencesEditor.putInt(context.getString
+                                    (R.string.amount_started), amountStarted).commit()
+                                println("Added to amount started")
 
                                 startingOnStr.text = defaultStartingOn
                                 endingOnStr.text = defaultEndingOn
                             } else {
-
                                 val period = changeDateFormat(
                                     startingOnStr.text as String,
                                     endingOnStr.text as String,
                                 )
 
                                 val type = object : TypeToken<List<HomeItem>>() {}.type
-
                                 val homeItems: ArrayList<HomeItem> = gson.fromJson(
                                     sharedPreferences.getString
                                         (context.getString(R.string.current_fasts), null),
                                     type,
                                 )
+
+                                var amountStarted = sharedPreferences.getInt(
+                                    context.getString(R.string.amount_started), 0)
+                                amountStarted++
+                                sharedPreferencesEditor.putInt(context.getString
+                                    (R.string.amount_started), amountStarted).commit()
+                                println("Added to amount started")
 
                                 val homeItem = HomeItem(
                                     fastName = fastName.text!!.toString(),
@@ -204,15 +216,27 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                                     ),
                                     fastDuration = period,
                                     comments = comment.toString(),
-                                    fastDescription = fastItem.fastDescription
+                                    fastDescription = fastItem.fastDescription,
+                                    finished = false,
+                                    notificationsOn = false
                                 )
-                                homeItems.add(homeItem)
-                                val serializedObject: String? = gson.toJson(homeItems)
-                                sharedPreferencesEditor.putString(
-                                    context.getString(R.string.current_fasts), serializedObject,
-                                ).commit()
 
-//                                Log.d("Fast list: ", "${homeItems.keys.size} entries exist")
+                                var found = false
+                                for(item in homeItems){
+                                    if(item.isAlreadyActiveFast(homeItem)){
+                                        found = true
+                                        println("Fast is already active")
+                                        break
+                                    }
+                                }
+
+                                if(!found){
+                                    homeItems.add(homeItem)
+                                    val serializedObject: String? = gson.toJson(homeItems)
+                                    sharedPreferencesEditor.putString(
+                                        context.getString(R.string.current_fasts), serializedObject,
+                                    ).commit()
+                                }
 
                                 for (item in homeItems) {
                                     println(
@@ -246,10 +270,7 @@ class FastItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             val from = LocalDate.parse(str1, DateTimeFormatter.ofPattern("MMddyyyy"))
             val to = LocalDate.parse(str2, DateTimeFormatter.ofPattern("MMddyyyy"))
             val period = Period.between(from, to)
-//            println("The difference between " + from.format(DateTimeFormatter.ISO_LOCAL_DATE)
-//                    + " and " + to.format(DateTimeFormatter.ISO_LOCAL_DATE) + " is "
-//                    + period.getYears() + " years, " + period.getMonths() + " months and "
-//                    + period.getDays() + " days")
+
             return "${period.months}:${period.days}:${period.years}"
         }
     }

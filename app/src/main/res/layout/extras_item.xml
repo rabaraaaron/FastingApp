@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/homeMainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,25 +29,23 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="0"
                     android:orientation="vertical">
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/homeItemCard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
                         app:cardBackgroundColor="@color/teal_200">
 
                         <LinearLayout
-                            android:id="@+id/homeItemLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:weightSum="15">
 
                             <ImageButton
-                                android:id="@+id/informationButton"
+                                android:id="@+id/finishedInformationButton"
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
                                 android:layout_gravity="center"
@@ -58,20 +54,8 @@
                                 android:contentDescription="Information on the particular fast"
                                 app:srcCompat="@android:drawable/ic_menu_info_details" />
 
-                            <ImageButton
-                                android:id="@+id/notificationBell"
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
-                                android:layout_gravity="center"
-                                android:layout_weight="1"
-                                android:background="#00FFFFFF"
-                                android:contentDescription="This button toggles the notifications for this fast"
-                                android:scaleX="1.5"
-                                android:scaleY="1.5"
-                                app:srcCompat="@drawable/ic_baseline_notifications_none_24" />
-
                             <TextView
-                                android:id="@+id/activeFastName"
+                                android:id="@+id/finishedFastName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="15dp"
@@ -80,41 +64,34 @@
                                 android:textSize="34sp"
                                 android:textStyle="bold" />
 
-                            <ImageButton
-                                android:id="@+id/deleteButton"
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
-                                android:layout_gravity="center"
-                                android:layout_weight="1"
-                                android:background="#00FFFFFF"
-                                android:contentDescription="Delete an active fast"
-                                app:srcCompat="@android:drawable/ic_delete"
-                                tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
-
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
                     <TextView
-                        android:id="@+id/activeFastStart"
+                        android:id="@+id/finishedFastStart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
                         android:layout_weight="8"
                         android:textColor="@color/white" />
 
                     <TextView
-                        android:id="@+id/activeFastEnd"
+                        android:id="@+id/finishedFastEnd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
                         android:textColor="@color/white" />
 
                     <TextView
-                        android:id="@+id/activeFastDuration"
+                        android:id="@+id/finishedFastDuration"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:textColor="@color/white" />
 
                     <LinearLayout
@@ -122,41 +99,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
                         android:orientation="horizontal"
-                        android:weightSum="10">
-
-                        <ProgressBar
-                            android:id="@+id/progressBar"
-                            style="@android:style/Widget.Material.ProgressBar.Horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center|center_vertical"
-                            android:layout_margin="15dp"
-                            android:layout_weight="9"
-                            android:indeterminate="false"
-                            android:max="1000"
-                            android:progress="0" />
-
-                        <ImageButton
-                            android:id="@+id/finishedButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            android:backgroundTint="#00FFFFFF"
-                            android:scaleType="centerInside"
-                            android:scaleX="2"
-                            android:scaleY="2"
-                            app:srcCompat="@drawable/ic_baseline_check_24"
-                            tools:ignore="SpeakableTextPresentCheck" />
-
-                    </LinearLayout>
+                        android:weightSum="10" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="8"
+                    android:layout_weight="9"
                     android:orientation="vertical">
 
                     <androidx.cardview.widget.CardView
@@ -164,7 +114,7 @@
                         android:layout_height="match_parent">
 
                         <EditText
-                            android:id="@+id/comments"
+                            android:id="@+id/finishedComments"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"

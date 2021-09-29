@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentAddFastBinding
 import com.example.myapplication.model.DataSource
 
@@ -29,6 +30,7 @@ class AddFastFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         addDataSet()
         addFastViewModel =
             ViewModelProvider(this).get(AddFastViewModel::class.java)

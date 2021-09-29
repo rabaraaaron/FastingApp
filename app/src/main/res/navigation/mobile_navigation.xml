@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_add_fast" />
 
     <fragment
+        android:id="@+id/navigation_extras"
+        android:name="com.example.myapplication.ui.extras.ExtrasFragment"
+        android:label="@string/title_extras"
+        tools:layout="@layout/fragment_extras"/>
+
+    <fragment
         android:id="@+id/navigation_settings"
         android:name="com.example.myapplication.ui.settings.SettingsFragment"
         android:label="@string/title_settings"

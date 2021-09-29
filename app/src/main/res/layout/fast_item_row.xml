@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -24,7 +25,6 @@
                 android:textAlignment="gravity"
                 android:textSize="34sp"
                 android:textStyle="bold">
-
             </TextView>
 
             <TextView
@@ -45,7 +45,11 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="40dp"
                 android:layout_weight="1"
-                android:text="Start Fast" />
+                android:foregroundTint="@color/teal_700"
+                android:text="Start Fast"
+                android:textColorHighlight="@color/teal_700"
+                android:textColorLink="@color/teal_700"
+                app:iconTint="@color/teal_700" />
 
         </LinearLayout>
 

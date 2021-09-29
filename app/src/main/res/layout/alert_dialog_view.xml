@@ -9,45 +9,72 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="48dp">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="42dp">
 
-        <TextView
-            android:id="@+id/startingOn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Starting on:" />
-
-        <ImageButton
-            android:id="@+id/calendarButton1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_date_range_24" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/endingOn"
+            <TextView
+                android:id="@+id/startingOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="Starting on:"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/calendarButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_baseline_date_range_24" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ending on:" />
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/calendarButton2"
+            <TextView
+                android:id="@+id/endingOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="Ending on:"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/calendarButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_baseline_date_range_24" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_date_range_24" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Comments:" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="Comments:"
+                android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/commentsTextArea"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textLongMessage|textAutoCorrect|textMultiLine|text" />
+            <EditText
+                android:id="@+id/commentsTextArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textLongMessage|textAutoCorrect|textMultiLine|text" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
