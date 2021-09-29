@@ -70,8 +70,7 @@ class HomeFragment : Fragment() {
             val description = "Channel for daily notifications"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(context.getString(
-                R.string.notifications_channel),
-                sequence, importance)
+                R.string.notifications_channel), sequence, importance)
             channel.description = description
 
             val notificationManager: NotificationManager? = ContextCompat.getSystemService(

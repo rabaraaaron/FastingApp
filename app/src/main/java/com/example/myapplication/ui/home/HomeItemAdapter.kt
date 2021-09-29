@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.graphics.Color
+import android.icu.util.Calendar
+import android.icu.util.GregorianCalendar
 import android.os.Build
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -12,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
@@ -69,7 +72,12 @@ class HomeItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 itemView.context.getString(R.string.current_fasts), 0)
         private var sharedPreferencesEditor = sharedPreferences.edit()
         private val gson: Gson = Gson()
-
+        private val hour = 12
+        private val alarmManager = itemView.context.getSystemService(ALARM_SERVICE) as AlarmManager
+        private val alarmPendingIntent by lazy {
+            val intent = Intent(itemView.context, ReminderBroadcast::class.java)
+            PendingIntent.getBroadcast(itemView.context, 0, intent, 0)
+        }
 
         fun bind(homeItem: HomeItem){
 
@@ -289,26 +297,16 @@ class HomeItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     itemView.context.getString(R.string.daily_notifications_switch), false
                 )
                 if(masterNotificationSetting){
+                    var notificationExists = false
                     for(item in homeItems){
+
                         if(item.equals(homeItem)){
                             item.notificationsOn = !item.notificationsOn
                             if(item.notificationsOn){
-                                //TODO: display correct fasting message for notifications
-                                    //TODO: schedule the notifications every day until completion
-
                                 Toast.makeText(itemView.context, "Setting daily reminders for" +
                                         " ${item.fastName}", Toast.LENGTH_SHORT).show()
 
-                                val intent = Intent(itemView.context, ReminderBroadcast::class.java)
-                                val pendingIntent = PendingIntent.getBroadcast(itemView.context,
-                                    0, intent, 0)
-                                val alarmManager: AlarmManager = itemView.context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                                val timeAtButtonClick = System.currentTimeMillis()
-                                val oneSecond = 1000 * 1
-
-                                alarmManager.set(AlarmManager.RTC_WAKEUP,
-                                    timeAtButtonClick + oneSecond, pendingIntent)
-
+                                schedulePushNotifications()
                             } else{
                                 Toast.makeText(itemView.context, "Notifications OFF for: " +
                                         item.fastName, Toast.LENGTH_SHORT).show()
@@ -327,10 +325,17 @@ class HomeItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                             ).commit()
                             break
                         }
+                        if(item.notificationsOn){
+                            notificationExists = true
+                        }
+                    }
+                    if(!notificationExists){
+                        removeNotifications()
                     }
                 } else{
                     Toast.makeText(itemView.context, "Enable Notifications in Settings",
                         Toast.LENGTH_SHORT).show()
+                    removeNotifications()
                 }
             }
         }
@@ -355,7 +360,29 @@ class HomeItemAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             return daysLeft
         }
 
+        private fun schedulePushNotifications() {
+            val calendar = GregorianCalendar.getInstance().apply {
+                if (get(Calendar.HOUR_OF_DAY) >= hour) {
+                    add(Calendar.DAY_OF_MONTH, 1)
+                }
 
+                set(Calendar.HOUR_OF_DAY, hour)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+
+            alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                AlarmManager.INTERVAL_DAY,
+                alarmPendingIntent
+            )
+        }
+
+        private fun removeNotifications(){
+            alarmManager.cancel(alarmPendingIntent)
+        }
 
     }
 }
